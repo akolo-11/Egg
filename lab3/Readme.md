@@ -7,95 +7,45 @@
 2. **Запись в файл**: Учащиеся реализуют программу, которая записывает пользовательский текст в файл, а также добавляет текст в существующий файл без удаления предыдущего содержимого.
 3. **Обработка исключений**: Учащиеся модифицируют программу для обработки исключений, таких как `FileNotFoundError`, чтобы программа корректно реагировала на попытки открыть несуществующий файл.
 
-## Задание 1: Открытие и чтение файла
-
-### Реализация функции для записи в файл
+## Задание 1 & 3: Открытие и чтение файла с обработкой исключения
 ```python
-def write_file(file_path: str):
-    if not isinstance(file_path, str):
-        print("Путь должен быть строкой")
-        return
+def task_1(mode = "whole"):
     try:
-        with open(file_path, "w", encoding="UTF-8") as file:
-            file.write("This is the first line.\n")
-            file.write("Here is the second line.\n")
-            file.write("And this is the third line.\n")
-    except FileNotFoundError:
-        print("По заданному пути невозможно создать файл")
-```
-
-### Реализация функции для чтения файла с выбором метода
-```python
-def read_file_methods(file_path: str, method="all"):
-    """
-    Args:
-        file_path (str): Path to txt file
-        method (str, optional): _description_. Defaults to "all".
-        all - read all file
-        lines - read file by lines
-
-    Returns:
-        result (tuple): Selected method and file content
-    """
-    if not isinstance(file_path, str):
-        print("Путь должен быть строкой")
-        return "ERROR: Path must be a string"
-    try:
-        with open(file_path, "r", encoding="UTF-8") as file:
-            if method == "all":
-                # Чтение всего файла сразу
-                content = file.read()
-
-            elif method == "lines":
-                # Чтение построчно
-                content = ""
+        if mode == "whole":
+            with open("example.txt", "r") as file:
+                print(file.read())
+                file.close()
+        elif mode == "linear":
+            with open("example.txt", 'r') as file:
                 for line in file:
-                    content += line
-            else:
-                return "ERROR: This method is unsupported"
-            return method, content
+                    print(line, end="")
+                file.close()
     except FileNotFoundError:
-        print("По заданному пути невозможно прочитать файл")
-```
-
-### Пример использования
-```python
-if __name__ == "__main__":
-    write_file("lab3/task1/example.txt")
-    print(read_file_methods("lab3/task1/example.txt", "all"))
+        print("file does not exist")
 ```
 
 ---
 
 ## Задание 2: Запись в файл
-
-### Реализация функции для записи данных в файл
 ```python
-def write_data_to_file(
-    file_path: str,
-    file_mode: str,
-    user_input: str,
-):
-    if not isinstance(file_path, str):
-        print("Путь должен быть строкой")
+def task_2(mode = "overwrite"):
+    file_name = "user_input.txt"
+    text = ""
+    string = input("Enter text line by line [exit() to finish]:\n")
+    while string != "exit()":
+        text += string
+        text += "\n"
+        string = input()
+    if text != "":
+        text = text[:-1]
+    if mode == "overwrite":
+        file = open(file_name, "w")
+    elif mode == "append":
+        file = open(file_name, "a")
+    else:
         return
-    try:
-        with open(file_path, file_mode, encoding="UTF-8") as file:
-            file.write(user_input)
-    except FileNotFoundError:
-        print("По заданному пути невозможно создать файл")
-    except ValueError:
-        print("Указан неверный режим открытия файла", file_mode)
-```
-
-### Пример использования
-```python
-if __name__ == "__main__":
-    write_data_to_file(
-        file_path="lab3/task2/user_input.txt",
-        file_mode="a",
-        user_input="Hello, World!"
-    )
+    file.write(text)
+    file.close()
 ```
 
 ---
