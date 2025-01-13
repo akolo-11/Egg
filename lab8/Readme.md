@@ -8,13 +8,13 @@
    mkdir ./Labwork
    ```
 
-2. **Функция `cd`**:
+2. **Команда `cd`**:
    - Меняет рабочую директорию
    ```console
    cd Labwork
    ```
 
-3. **Функция `echo`**:
+3. **Команда `echo`**:
    - Выводит строку текста
    ```console
    echo "Hello World!" > example.txt
